@@ -46,5 +46,13 @@ public class GroceryItem {
         this.category = category;
     }
 
-
+    @Override
+    public String toString() {
+        return "GroceryItem{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", quantity=" + quantity +
+                ", category='" + category + '\'' +
+                '}';
+    }
 }

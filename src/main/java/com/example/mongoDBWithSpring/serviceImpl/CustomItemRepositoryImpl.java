@@ -45,11 +45,6 @@ public class CustomItemRepositoryImpl implements CustomItemRepository {
         System.out.println("Data creation complete...");
     }
 
-    public void showAllGroceryItems() {
-
-        groceryItemRepo.findAll().forEach(item -> System.out.println(getItemDetails(item)));
-    }
-
     public String getItemDetails(GroceryItem item) {
 
         System.out.println(
