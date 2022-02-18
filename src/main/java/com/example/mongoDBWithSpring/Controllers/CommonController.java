@@ -6,12 +6,13 @@ import com.example.mongoDBWithSpring.service.GetItemDetailsService;
 import com.example.mongoDBWithSpring.serviceImpl.CustomItemRepositoryImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 //@CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -81,15 +82,36 @@ public class CommonController {
     @PostMapping(path = "/getItemByName",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void getItemByName(@RequestParam(defaultValue = "Whole Wheat Biscuit") String name){
+    public ResponseEntity<GroceryItem> getItemByName(@RequestBody String name){
         log.info("\n-----------GET ITEMS BY NAME---------------------------------\n");
-        getItemDetailsService.getGroceryItemByName(name);
+        return new ResponseEntity<>(getItemDetailsService.getGroceryItemByName(name), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/users",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> create(@RequestBody String value) {
+        log.info("---------inside POST-------" + value);
+       /* User user = userService.save(newUser);
+        if (user == null) {
+            throw new ServerException();
+        } else {
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
+        }*/
+
+        return new ResponseEntity<>("here", HttpStatus.OK);
     }
 
     @GetMapping("/getItem/{category}")
     public List<GroceryItem> getItemByCategory(@PathVariable String category){
         log.info("\n-----------GET ITEMS BY CATEGORY---------------------------------\n");
         return  getItemDetailsService.getItemsByCategory(category);
+    }
+
+    @PostMapping("/postItemByCategory")
+    public ResponseEntity<List<GroceryItem>> postItemByCategory(@RequestBody String category){
+        log.info("\n-----------GET ITEMS BY CATEGORY---------------------------------\n");
+        return  new ResponseEntity<>(getItemDetailsService.getItemsByCategory(category), HttpStatus.OK);
     }
 
     @PostMapping("/update/{category}/{quantity}")

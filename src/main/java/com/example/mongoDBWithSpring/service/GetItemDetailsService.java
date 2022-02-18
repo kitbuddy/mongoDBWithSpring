@@ -8,7 +8,7 @@ import java.util.Set;
 public interface GetItemDetailsService {
 
     Set<String> getGroceryItemsNames();
-    void getGroceryItemByName(String name);
+    GroceryItem getGroceryItemByName(String name);
     List<GroceryItem> getItemsByCategory(String category);
     long findCountOfGroceryItems();
     void updateItemQuantity(String name, float newQuantity);

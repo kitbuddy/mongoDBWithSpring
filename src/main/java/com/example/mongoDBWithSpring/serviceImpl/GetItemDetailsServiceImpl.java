@@ -27,15 +27,21 @@ public class GetItemDetailsServiceImpl implements GetItemDetailsService {
 
         List<GroceryItem> listOfGroceries = itemRepository.findAll();
 
-        Set<String> setOfGroceries = listOfGroceries.stream().map(a -> a.getName()).collect(Collectors.toSet());
+        Set<String> setOfGroceries = listOfGroceries.stream().map(GroceryItem::getName).collect(Collectors.toSet());
         return setOfGroceries;
     }
 
     @Override
-    public void getGroceryItemByName(String name) {
+    public GroceryItem getGroceryItemByName(String name) {
         log.info("Getting item by name: " + name);
         GroceryItem item = itemRepository.findItemByName(name);
-        log.info(item.toString());
+        
+        if (item != null){
+            log.info(item.toString());
+            return item;
+        }
+
+        return null;
     }
 
     @Override
@@ -43,7 +49,9 @@ public class GetItemDetailsServiceImpl implements GetItemDetailsService {
         log.info("Getting items for the category " + category);
         List<GroceryItem> list = itemRepository.findAll(category);
 
-        list.forEach(item -> log.info("Name: " + item.getName() + ", Quantity: " + item.getQuantity()));
+        list.forEach(item -> log.info("Name: " + item.getName()
+                                    + ", Quantity: " + item.getQuantity()
+                                    + ", Category: " + item.getCategory()));
         return list;
     }
 
