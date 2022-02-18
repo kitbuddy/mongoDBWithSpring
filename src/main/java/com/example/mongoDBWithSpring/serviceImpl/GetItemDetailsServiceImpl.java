@@ -35,7 +35,7 @@ public class GetItemDetailsServiceImpl implements GetItemDetailsService {
     public GroceryItem getGroceryItemByName(String name) {
         log.info("Getting item by name: " + name);
         GroceryItem item = itemRepository.findItemByName(name);
-        
+
         if (item != null){
             log.info(item.toString());
             return item;
