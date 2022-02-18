@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:8081")
+//@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/api")
 @Slf4j
@@ -44,11 +44,24 @@ public class CommonController {
         return itemRepository.findAll();
     }
 
+    @GetMapping("/allUniqueNames")
+    public List<String> findAllallUniqueNames() {
+        log.info("-All method called from findAllItemsFromGroceryRepoByCategory controller");
+        customItemRepository.createGroceryItems();
+        return customItemRepository.getAllUniqueNames();
+    }
+
+    @GetMapping("/allUniqueNamesWithString/{name}")
+    public Set<String> findAllallUniqueNamesWithString(@PathVariable String name) {
+        log.info("-All method called from findAllItemsFromGroceryRepoByCategory controller");
+        customItemRepository.createGroceryItems();
+        return customItemRepository.getAllUniqueNamesWithString(name);
+    }
+
     @GetMapping("/setOfGroceries")
     public Set<String> getSetOfItemsFromGroceryRepoByCategory() {
         log.info("-All method called from findAllItemsFromGroceryRepoByCategory controller");
-        Set<String> setOfGroceryNames = getItemDetailsService.getGroceryItemsNames();
-        return setOfGroceryNames;
+        return getItemDetailsService.getGroceryItemsNames();
     }
 
     @GetMapping("/create")
@@ -67,8 +80,8 @@ public class CommonController {
 
     @PostMapping(path = "/getItemByName",
             produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = "application/json")
-    public void getItemByName(@RequestBody String name){
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void getItemByName(@RequestParam(defaultValue = "Whole Wheat Biscuit") String name){
         log.info("\n-----------GET ITEMS BY NAME---------------------------------\n");
         getItemDetailsService.getGroceryItemByName(name);
     }
@@ -85,12 +98,15 @@ public class CommonController {
         getItemDetailsService.updateItemQuantity(category, quantity);
     }
 
-
-
     @PostMapping("/delete/{id}")
     public void deleteGroceryItems(@PathVariable String id){
         log.info("\n----------DELETE A GROCERY ITEM----------------------------------\n");
 //        deleteGroceryItem("Kodo Millet");
         getItemDetailsService.deleteGroceryItem(id);
     }
+
+    public void callMapsAPIForTesting() {
+
+    }
+
 }
