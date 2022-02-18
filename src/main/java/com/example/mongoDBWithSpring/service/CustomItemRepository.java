@@ -4,5 +4,6 @@ public interface CustomItemRepository {
 
     void updateItemQuantity(String name, float newQuantity);
     void createGroceryItems();
+    void updateCategoryName(String name);
 
 }
